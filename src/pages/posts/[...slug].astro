@@ -1,0 +1,66 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCategory } from '../../data/categories';
+import { formatDate, isoDate } from '../../lib/dates';
+import { categoryPath, postPath } from '../../lib/paths';
+import { albumNeighbors, getPosts } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const category = getCategory(post.data.category);
+const { prev, next } = albumNeighbors(await getPosts(), post);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description} categoryId={category.id}>
+  <article class="article">
+    <header>
+      {post.data.sample && <p class="badge">示例 · 可删除</p>}
+      <p class="eyebrow">
+        <a href={categoryPath(category.id)}>{category.name}</a>
+      </p>
+      <h1>{post.data.title}</h1>
+      <p class="meta">
+        <time datetime={isoDate(post.data.pubDate)}>{formatDate(post.data.pubDate)}</time>
+        {post.data.sample && ' · 占位文，不是公众号原文'}
+      </p>
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+    <nav class="continuous" aria-label="连续阅读">
+      <div>
+        <span class="post-kicker">上一篇</span>
+        {
+          prev ? (
+            <a rel="prev" href={postPath(prev.id)}>
+              {prev.data.title}
+            </a>
+          ) : (
+            <span class="empty">已是合集第一篇</span>
+          )
+        }
+      </div>
+      <div class="continuous-next">
+        <span class="post-kicker">下一篇</span>
+        {
+          next ? (
+            <a rel="next" href={postPath(next.id)}>
+              {next.data.title}
+            </a>
+          ) : (
+            <span class="empty">已是合集最后一篇</span>
+          )
+        }
+      </div>
+    </nav>
+  </article>
+</BaseLayout>

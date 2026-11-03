@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { orderedCategories } from '../../data/categories';
+import { sitePath } from '../../lib/paths';
+import { getPosts, postsInCategory, publishedPosts } from '../../lib/posts';
+
+export function getStaticPaths() {
+  return orderedCategories().map((category) => ({
+    params: { id: category.id },
+    props: { category },
+  }));
+}
+
+const { category } = Astro.props;
+const ordered = postsInCategory(await getPosts(), category.id);
+const publishedCount = publishedPosts(ordered).length;
+---
+
+<BaseLayout title={category.name} description={category.description} categoryId={category.id}>
+  <p class="eyebrow"><a href={sitePath('heji')}>合集</a></p>
+  <h1>{category.name}</h1>
+  <p class="lede">{category.description}</p>
+  <p class="meta">
+    本站正式文章 {publishedCount} 篇。公众号该合集约 {category.wechatCount} 篇，尚未迁入。
+    <a href={category.wechatUrl}>微信合集</a>
+  </p>
+  <p class="section-note">文章按 albumOrder 从小到大，与公众号合集当前顺序一致，不按发布时间倒序。</p>
+
+  <section aria-labelledby="posts-heading">
+    <h2 id="posts-heading">文章</h2>
+    {
+      publishedCount === 0 && (
+        <p class="sample-note">还没有正式文章。下面的示例按合集顺序列出，不是公众号原文，确认路由后可以删除。</p>
+      )
+    }
+    <PostList posts={ordered} showOrder empty="这个合集还没有文章。" />
+  </section>
+</BaseLayout>

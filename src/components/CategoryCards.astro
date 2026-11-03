@@ -1,0 +1,25 @@
+---
+import { orderedCategories, type CategoryId } from '../data/categories';
+import { categoryPath } from '../lib/paths';
+
+interface Props {
+  counts: Record<CategoryId, number>;
+}
+
+const { counts } = Astro.props;
+const categories = orderedCategories();
+---
+
+<ol class="category-grid">
+  {
+    categories.map((category) => (
+      <li>
+        <a class="category-card" href={categoryPath(category.id)}>
+          <strong>{category.name}</strong>
+          <span>{category.description}</span>
+          <small>{counts[category.id]} 篇</small>
+        </a>
+      </li>
+    ))
+  }
+</ol>

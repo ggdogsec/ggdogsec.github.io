@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CategoryCards from '../../components/CategoryCards.astro';
+import { site } from '../../data/site';
+import { categoryCounts, getPosts } from '../../lib/posts';
+
+const counts = categoryCounts(await getPosts());
+const description = 'GGDog Sec 的六个微信合集：校招进度、大学杂谈、实习与校招、面经、面经图解、毕业薪资。';
+---
+
+<BaseLayout title="合集" description={description}>
+  <h1>合集</h1>
+  <p class="lede">
+    本站只用微信公众号的合集归档，不使用标签。下面的顺序与公众号合集一致，篇数是本站已发布的正式文章，目前为 0。
+  </p>
+  <CategoryCards counts={counts} />
+  <p class="section-note">{site.footerNote}</p>
+</BaseLayout>

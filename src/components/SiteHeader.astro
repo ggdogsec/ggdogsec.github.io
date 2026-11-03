@@ -1,0 +1,35 @@
+---
+import CategoryNav from './CategoryNav.astro';
+import { site } from '../data/site';
+import { sitePath } from '../lib/paths';
+import type { CategoryId } from '../data/categories';
+
+interface Props {
+  categoryId?: CategoryId;
+}
+
+const { categoryId } = Astro.props;
+
+const pathname = Astro.url.pathname;
+const home = sitePath();
+const heji = sitePath('heji');
+
+function current(href: string): 'page' | undefined {
+  if (href === home) return pathname === home ? 'page' : undefined;
+  return pathname === href || pathname.startsWith(href) ? 'page' : undefined;
+}
+---
+
+<header class="site-header">
+  <div class="shell header-inner">
+    <a class="brand" href={home}>{site.title}</a>
+    <nav class="nav-group" aria-label="站内">
+      <a href={home} aria-current={current(home)}>首页</a>
+      <a href={heji} aria-current={current(heji)}>合集</a>
+      <button class="theme-toggle" type="button" data-theme-toggle>深色</button>
+    </nav>
+  </div>
+  <div class="shell header-categories">
+    <CategoryNav currentId={categoryId} label="合集顺序" orientation="horizontal" />
+  </div>
+</header>
