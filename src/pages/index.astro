@@ -18,7 +18,7 @@ const counts = categoryCounts(posts);
   <section aria-labelledby="categories-heading">
     <h2 id="categories-heading">合集</h2>
     <p class="section-note">
-      顺序与公众号合集一致（每届校招进度同步 → 网安毕业薪资），不按篇数或名称排序。计数只含正式文章，示例不计入。
+      顺序与公众号合集一致（每届校招进度同步 → 网安毕业薪资），不按篇数或名称排序。计数是本站已发布的正式文章。
     </p>
     <CategoryCards counts={counts} />
   </section>
@@ -30,7 +30,7 @@ const counts = categoryCounts(posts);
       posts={recent}
       showCategory
       showOrder
-      empty="还没有正式文章。各合集页里有一篇标明「示例·可删除」的占位文，用来确认路由。"
+      empty="还没有正式文章。"
     />
   </section>
 </BaseLayout>

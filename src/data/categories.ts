@@ -12,7 +12,7 @@ export const categories = [
     name: '每届校招进度同步',
     description: '按届同步网络安全校招进度。',
     wechatAlbumId: '4732003422634344449',
-    wechatCount: 14,
+    wechatCount: 15,
     wechatUrl:
       'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzYzNzEwNTQ1OA==&action=getalbum&album_id=4732003422634344449#wechat_redirect',
   },
@@ -32,7 +32,7 @@ export const categories = [
     name: '实习+校招',
     description: '实习与校招相关的记录。',
     wechatAlbumId: '4519543932728475649',
-    wechatCount: 55,
+    wechatCount: 56,
     wechatUrl:
       'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzYzNzEwNTQ1OA==&action=getalbum&album_id=4519543932728475649#wechat_redirect',
   },
