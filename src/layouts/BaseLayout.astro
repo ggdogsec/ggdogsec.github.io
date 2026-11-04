@@ -26,7 +26,9 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : Astro.u
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonical.href} />
-    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.png`} type="image/png" sizes="32x32" />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} type="image/x-icon" sizes="32x32" />
+    <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}apple-touch-icon.png`} sizes="180x180" />
     <title>{pageTitle}</title>
     <script is:inline>
       (function () {
