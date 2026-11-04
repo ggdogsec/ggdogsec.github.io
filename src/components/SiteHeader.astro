@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import avatar from '../assets/avatar-shiba.jpg';
 import CategoryNav from './CategoryNav.astro';
 import { site } from '../data/site';
 import { sitePath } from '../lib/paths';
@@ -22,12 +24,29 @@ function current(href: string): 'page' | undefined {
 
 <header class="site-header">
   <div class="shell header-inner">
-    <a class="brand" href={home}>{site.title}</a>
-    <nav class="nav-group" aria-label="站内">
-      <a href={home} aria-current={current(home)}>首页</a>
-      <a href={heji} aria-current={current(heji)}>合集</a>
-      <button class="theme-toggle" type="button" data-theme-toggle>深色</button>
-    </nav>
+    <a class="brand" href={home}>
+      <Image
+        class="brand-avatar"
+        src={avatar}
+        alt=""
+        width={80}
+        height={80}
+        densities={[1, 2]}
+        loading="eager"
+        decoding="async"
+      />
+      <span>{site.title}</span>
+    </a>
+    <div class="header-actions">
+      <nav class="nav-group" aria-label="站内">
+        <a href={home} aria-current={current(home)}>首页</a>
+        <a href={heji} aria-current={current(heji)}>合集</a>
+      </nav>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false">
+        <span class="when-light">深色</span>
+        <span class="when-dark">浅色</span>
+      </button>
+    </div>
   </div>
   <div class="shell header-categories">
     <CategoryNav currentId={categoryId} label="合集顺序" orientation="horizontal" />

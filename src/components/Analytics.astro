@@ -1,0 +1,40 @@
+---
+import { resolveAnalytics } from '../lib/analytics';
+import { site } from '../data/site';
+
+const analytics = resolveAnalytics(site.analytics);
+---
+
+{
+  analytics.baiduId && (
+    <script is:inline define:vars={{ baiduId: analytics.baiduId }}>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement('script');
+        hm.src = 'https://hm.baidu.com/hm.js?' + baiduId;
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  )
+}
+{
+  analytics.umami && (
+    <script
+      is:inline
+      defer
+      src={analytics.umami.src}
+      data-website-id={analytics.umami.websiteId}
+    />
+  )
+}
+{
+  analytics.goatcounter && (
+    <script
+      is:inline
+      async
+      src="https://gc.zgo.at/count.js"
+      data-goatcounter={analytics.goatcounter}
+    />
+  )
+}

@@ -1,13 +1,41 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CategoryCards from '../components/CategoryCards.astro';
-import PostList from '../components/PostList.astro';
+import { getCategory } from '../data/categories';
 import { site } from '../data/site';
-import { categoryCounts, getPosts, publishedPosts } from '../lib/posts';
+import { postPath } from '../lib/paths';
+import { categoryCounts, getPosts, type Post } from '../lib/posts';
+
+const featuredTitles = [
+  '大三关注的up，我大四入职时，他被裁了。聊聊职业选择与规划 (网络安全)',
+  '长亭红队实习，二面面经',
+] as const;
+
+function normalizeTitle(value: string): string {
+  return value.replace(/[\s\u3000]+/g, '').replace(/[，。,.、；;：:！!？?（）()【】[\]"'“”‘’]/g, '');
+}
+
+function findFeatured(posts: Post[], title: string): Post {
+  const exact = posts.find((post) => post.data.title === title);
+  if (exact) return exact;
+  const target = normalizeTitle(title);
+  const fuzzy = posts.find((post) => normalizeTitle(post.data.title) === target);
+  if (!fuzzy) {
+    throw new Error(`首页精选未找到文章：${title}`);
+  }
+  return fuzzy;
+}
+
+function excerpt(text: string, limit = 88): string {
+  const flat = text.replace(/\s+/g, ' ').trim();
+  if (flat.length <= limit) return flat;
+  const trimmed = flat.slice(0, limit).replace(/[，。、；：,.;:\s]+$/u, '');
+  return `${trimmed}…`;
+}
 
 const posts = await getPosts();
-const recent = publishedPosts(posts).slice(0, 8);
 const counts = categoryCounts(posts);
+const featured = featuredTitles.map((title) => findFeatured(posts, title));
 ---
 
 <BaseLayout title={site.title} description={site.description}>
@@ -15,22 +43,37 @@ const counts = categoryCounts(posts);
   <h1>{site.title}</h1>
   <p class="lede">{site.description}</p>
 
+  <section class="featured" aria-labelledby="featured-heading">
+    <h2 id="featured-heading">精选</h2>
+    <ol class="featured-grid">
+      {
+        featured.map((post) => {
+          const href = postPath(post.id);
+          const category = getCategory(post.data.category);
+          return (
+            <li>
+              <article class="featured-card">
+                <p class="post-kicker">{category.name}</p>
+                <h3>
+                  <a href={href}>{post.data.title}</a>
+                </h3>
+                <p class="featured-excerpt">{excerpt(post.data.description)}</p>
+                <a class="featured-more" href={href}>
+                  阅读全文
+                </a>
+              </article>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </section>
+
   <section aria-labelledby="categories-heading">
     <h2 id="categories-heading">合集</h2>
     <p class="section-note">
       顺序与公众号合集一致（每届校招进度同步 → 网安毕业薪资），不按篇数或名称排序。计数是本站已发布的正式文章。
     </p>
     <CategoryCards counts={counts} />
-  </section>
-
-  <section aria-labelledby="recent-heading">
-    <h2 id="recent-heading">正式文章</h2>
-    <p class="section-note">按合集顺序再按 albumOrder 排列。发布时间只作标注，不决定先后。</p>
-    <PostList
-      posts={recent}
-      showCategory
-      showOrder
-      empty="还没有正式文章。"
-    />
   </section>
 </BaseLayout>

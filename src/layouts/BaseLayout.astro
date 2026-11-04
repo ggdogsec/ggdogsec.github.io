@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Analytics from '../components/Analytics.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import CategoryNav from '../components/CategoryNav.astro';
@@ -31,12 +32,15 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : Astro.u
       (function () {
         try {
           var stored = localStorage.getItem('ggdogsec-theme');
-          if (stored === 'light' || stored === 'dark') {
-            document.documentElement.dataset.theme = stored;
+          if (stored === 'dark') {
+            document.documentElement.dataset.theme = 'dark';
+          } else if (stored === 'light') {
+            document.documentElement.dataset.theme = 'light';
           }
         } catch (error) {}
       })();
     </script>
+    <Analytics />
   </head>
   <body>
     <a class="skip-link" href="#main">跳到正文</a>
@@ -56,15 +60,12 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : Astro.u
         if (!button) return;
 
         function currentTheme() {
-          var explicit = document.documentElement.dataset.theme;
-          if (explicit === 'light' || explicit === 'dark') return explicit;
-          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
         }
 
         function paint() {
           var theme = currentTheme();
           var toDark = theme !== 'dark';
-          button.textContent = toDark ? '深色' : '浅色';
           button.setAttribute('aria-label', toDark ? '切换到深色' : '切换到浅色');
           button.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
         }

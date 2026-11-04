@@ -25,13 +25,12 @@ const publishedCount = publishedPosts(ordered).length;
     本站正式文章 {publishedCount} 篇。公众号该合集 {category.wechatCount} 篇。
     <a href={category.wechatUrl}>微信合集</a>
   </p>
-  <p class="section-note">文章按 albumOrder 从小到大，与公众号合集当前顺序一致，不按发布时间倒序。</p>
 
   <section aria-labelledby="posts-heading">
     <h2 id="posts-heading">文章</h2>
     {
       publishedCount === 0 && <p class="sample-note">还没有正式文章。</p>
     }
-    <PostList posts={ordered} showOrder empty="这个合集还没有文章。" />
+    <PostList posts={ordered} empty="这个合集还没有文章。" />
   </section>
 </BaseLayout>
