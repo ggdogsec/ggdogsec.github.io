@@ -24,12 +24,19 @@ const { prev, next } = albumNeighbors(await getPosts(), post);
   <article class="article">
     <header>
       {post.data.sample && <p class="badge">示例 · 可删除</p>}
+      {post.data.migrationStatus === 'failed' && <p class="badge">正文未同步</p>}
       <p class="eyebrow">
         <a href={categoryPath(category.id)}>{category.name}</a>
       </p>
       <h1>{post.data.title}</h1>
       <p class="meta">
         <time datetime={isoDate(post.data.pubDate)}>{formatDate(post.data.pubDate)}</time>
+        {post.data.wechatUrl && (
+          <>
+            {' · '}
+            <a href={post.data.wechatUrl}>微信原文</a>
+          </>
+        )}
         {post.data.sample && ' · 占位文，不是公众号原文'}
       </p>
     </header>

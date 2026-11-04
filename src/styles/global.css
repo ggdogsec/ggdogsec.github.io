@@ -386,6 +386,13 @@ h2 {
   margin: 0.9em 0;
 }
 
+.prose img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1rem 0;
+}
+
 .prose blockquote {
   margin-left: 0;
   padding-left: 0.9rem;

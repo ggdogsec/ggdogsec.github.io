@@ -22,6 +22,11 @@ const posts = defineCollection({
     /** Scaffold placeholder. Excluded from homepage counts. */
     sample: z.boolean().default(false),
     draft: z.boolean().default(false),
+    /** Canonical WeChat article URL (https). */
+    wechatUrl: z.string().url(),
+    msgid: z.string().min(1),
+    /** Present when the body could not be fetched. The post still keeps its albumOrder. */
+    migrationStatus: z.enum(['failed']).optional(),
   }),
 });
 
