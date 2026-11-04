@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CategoryCards from '../components/CategoryCards.astro';
+import PostList from '../components/PostList.astro';
+import { site } from '../data/site';
+import { categoryCounts, getPosts, publishedPosts } from '../lib/posts';
+
+const posts = await getPosts();
+const recent = publishedPosts(posts).slice(0, 8);
+const counts = categoryCounts(posts);
+---
+
+<BaseLayout title={site.title} description={site.description}>
+  <p class="eyebrow">个人博客</p>
+  <h1>{site.title}</h1>
+  <p class="lede">{site.description}</p>
+
+  <section aria-labelledby="categories-heading">
+    <h2 id="categories-heading">合集</h2>
+    <p class="section-note">
+      顺序与公众号合集一致（每届校招进度同步 → 网安毕业薪资），不按篇数或名称排序。计数只含正式文章，示例不计入。
+    </p>
+    <CategoryCards counts={counts} />
+  </section>
+
+  <section aria-labelledby="recent-heading">
+    <h2 id="recent-heading">正式文章</h2>
+    <p class="section-note">按合集顺序再按 albumOrder 排列。发布时间只作标注，不决定先后。</p>
+    <PostList
+      posts={recent}
+      showCategory
+      showOrder
+      empty="还没有正式文章。各合集页里有一篇标明「示例·可删除」的占位文，用来确认路由。"
+    />
+  </section>
+</BaseLayout>

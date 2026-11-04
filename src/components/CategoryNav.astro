@@ -1,0 +1,32 @@
+---
+import { orderedCategories, type CategoryId } from '../data/categories';
+import { categoryPath } from '../lib/paths';
+
+interface Props {
+  currentId?: CategoryId;
+  label?: string;
+  orientation?: 'vertical' | 'horizontal';
+}
+
+const { currentId, label = '合集', orientation = 'vertical' } = Astro.props;
+const categories = orderedCategories();
+---
+
+<nav class:list={['category-nav', orientation]} aria-label={label}>
+  {orientation === 'vertical' && <p class="eyebrow">{label}</p>}
+  <ol>
+    {
+      categories.map((category) => (
+        <li>
+          <a
+            href={categoryPath(category.id)}
+            aria-current={category.id === currentId ? 'page' : undefined}
+          >
+            <span class="nav-index">{category.order}</span>
+            {category.name}
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</nav>
