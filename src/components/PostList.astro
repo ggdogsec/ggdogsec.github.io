@@ -8,10 +8,9 @@ interface Props {
   posts: Post[];
   empty?: string;
   showCategory?: boolean;
-  showOrder?: boolean;
 }
 
-const { posts, empty = '还没有正式文章。', showCategory = false, showOrder = false } = Astro.props;
+const { posts, empty = '还没有正式文章。', showCategory = false } = Astro.props;
 ---
 
 {
@@ -23,7 +22,6 @@ const { posts, empty = '还没有正式文章。', showCategory = false, showOrd
         const category = getCategory(post.data.category);
         return (
           <li>
-            {showOrder && <span class="post-kicker">合集第 {post.data.albumOrder} 篇</span>}
             <a class="title" href={postPath(post.id)}>
               {post.data.title}
             </a>
