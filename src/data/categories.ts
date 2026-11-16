@@ -22,7 +22,7 @@ export const categories = [
     name: '大学杂谈',
     description: '大学阶段的杂谈。',
     wechatAlbumId: '4519548862998609923',
-    wechatCount: 12,
+    wechatCount: 13,
     wechatUrl:
       'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzYzNzEwNTQ1OA==&action=getalbum&album_id=4519548862998609923#wechat_redirect',
   },
@@ -32,7 +32,7 @@ export const categories = [
     name: '实习+校招',
     description: '实习与校招相关的记录。',
     wechatAlbumId: '4519543932728475649',
-    wechatCount: 56,
+    wechatCount: 66,
     wechatUrl:
       'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzYzNzEwNTQ1OA==&action=getalbum&album_id=4519543932728475649#wechat_redirect',
   },
@@ -42,7 +42,7 @@ export const categories = [
     name: '面经',
     description: '面试经验。',
     wechatAlbumId: '4519552702984585219',
-    wechatCount: 40,
+    wechatCount: 54,
     wechatUrl:
       'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzYzNzEwNTQ1OA==&action=getalbum&album_id=4519552702984585219#wechat_redirect',
   },
